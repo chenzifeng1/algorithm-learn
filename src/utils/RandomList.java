@@ -22,10 +22,35 @@ public class RandomList {
         // (maxValue+1)*Math.random：随机生成一个0-maxValue+1的随机浮点数，强转之后就会变成0-maxValue的整数
         //这里让数组长度也随机
         int[] array = new int[(int) ((maxSize+1)*Math.random())];
-        random.setSeed(1);
         for (int i = 0; i < array.length; i++) {
             array[i]=Math.abs((int)((maxValue+1)*Math.random()-(maxValue+1)*Math.random())) ;
         }
+        return array;
+    }
+
+    /**
+     * 生成一个随机数组，其中只有一个数出现了k次，其他数出现了m次
+     * @param maxSize 元素种类
+     * @param maxValue 数据中的最大值
+     * @param k
+     * @param m
+     * @return
+     */
+    public static int[] generateRandomIntArray(int maxSize,int maxValue,int k,int m){
+        /**
+         * 生成一个1-maxSize的随机数
+         */
+        maxSize =(int) Math.random()*maxSize+1;
+        /**
+         * 数组长度其实已经固定了
+         */
+        int[] array = new int[k+(maxSize-1)*m];
+
+        for (int i = 0; i < maxSize; i++) {
+
+        }
+
+
         return array;
     }
 }

@@ -1,5 +1,11 @@
 package xor;
 
+import utils.RandomList;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author chenzifeng
  * @Package xor
@@ -20,41 +26,99 @@ package xor;
  */
 public class KOddNum {
 
-    public static void getKOddNum(int[] array,int k,int m){
-        if(k>=m){
+    public static int getKOddNum(int[] array, int k, int m) {
+        if (k >= m) {
             System.out.println("参数错误");
         }
         int[] binArray = new int[32];
         //统计二进制数组
         for (int i : array) {
-            setBinCount_1(binArray,i);
+            setBinCount_1(binArray, i);
         }
-        int temp=0;
+        int temp = 0;
         for (int i = 0; i < binArray.length; i++) {
-            if(binArray[i]%m!=0){
+            if (binArray[i] % m != 0) {
                 //这里相当于在i位置上把1设置上去
-                temp|=(1<<i);
+                temp |= (1 << i);
             }
         }
-        System.out.println("所求的数为："+temp);
+        return temp;
     }
 
-    public static void setBinCount(int[] array,int num){
+    public static void setBinCount(int[] array, int num) {
         String binStr = Integer.toBinaryString(num);
         for (int i = 0; i < binStr.length(); i++) {
-            array[i]+=Integer.valueOf(binStr.charAt(binStr.length()-1-i)-'0');
+            array[i] += Integer.valueOf(binStr.charAt(binStr.length() - 1 - i) - '0');
         }
     }
 
     /**
      * 将累计num各位上的值到array
+     *
      * @param array
      * @param num
      */
-    public static void setBinCount_1(int[] array,int num){
-        for (int i=0;i<=31;i++){
+    public static void setBinCount_1(int[] array, int num) {
+        for (int i = 0; i <= 31; i++) {
             //判断num第i位是否是1
-            array[i]+=(num>>i)&1;
+            array[i] += (num >> i) & 1;
         }
     }
+
+    /**
+     * 使用hash表来解决问题
+     *
+     * @param array
+     * @param k
+     * @param m
+     * @return
+     */
+    private static int test(int[] array, int k, int m) {
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+        for (int num : array) {
+            hashMap.put(num, hashMap.containsKey(num) ? 1 : hashMap.get(num) + 1);
+        }
+        AtomicInteger temp = new AtomicInteger(0);
+        hashMap.forEach((num, time) -> {
+            if (time == k) {
+                temp.set(k);
+            }
+        });
+        return temp.get();
+    }
+
+    /**
+     * 对数器
+     * @param args
+     */
+    public static void main(String[] args) {
+        //元素种类个数的最大值
+        int maxSize = 1000;
+        //元素值的最大值
+        int maxValue = 10000;
+        //测试次数
+        int testTimes = 100000;
+
+        for (int i = 0; i < testTimes; i++) {
+            int a = (int) (Math.random()*maxValue)+1;
+            int b = (int) (Math.random()*maxValue)+1;
+            int k = Math.min(a,b);
+            int m = Math.max(a,b);
+            m = m==k?m++:m;
+            int[] testArr = RandomList.generateRandomIntArray(maxSize,maxValue,k,m);
+            if(test(testArr,k,m)!=getKOddNum(testArr,k,m)){
+                System.out.println("出问题的测试用例为：");
+                for (int i1 : testArr) {
+                    System.out.print(i1+" ");
+                }
+                System.out.println();
+                break;
+            }
+            
+        }
+
+
+    }
+
+
 }
