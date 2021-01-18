@@ -76,15 +76,14 @@ public class KOddNum {
     private static int test(int[] array, int k, int m) {
         HashMap<Integer, Integer> hashMap = new HashMap<>();
         for (int num : array) {
-            hashMap.put(num, hashMap.containsKey(num) ? 1 : hashMap.get(num) + 1);
+            hashMap.put(num, hashMap.containsKey(num) ?  hashMap.get(num) +1 : 1);
         }
-        AtomicInteger temp = new AtomicInteger(0);
-        hashMap.forEach((num, time) -> {
-            if (time == k) {
-                temp.set(k);
+        for (Integer integer : hashMap.keySet()) {
+            if(hashMap.get(integer)==k){
+                return integer;
             }
-        });
-        return temp.get();
+        }
+        return Integer.MAX_VALUE;
     }
 
     /**
@@ -93,29 +92,30 @@ public class KOddNum {
      */
     public static void main(String[] args) {
         //元素种类个数的最大值
-        int maxSize = 1000;
+        int maxSize = 30;
         //元素值的最大值
-        int maxValue = 10000;
+        int maxValue = 100;
         //测试次数
         int testTimes = 100000;
-
+        System.out.println("测试开始！");
         for (int i = 0; i < testTimes; i++) {
             int a = (int) (Math.random()*maxValue)+1;
             int b = (int) (Math.random()*maxValue)+1;
             int k = Math.min(a,b);
             int m = Math.max(a,b);
-            m = m==k?m++:m;
+            m = m==k?m+1:m;
             int[] testArr = RandomList.generateRandomIntArray(maxSize,maxValue,k,m);
             if(test(testArr,k,m)!=getKOddNum(testArr,k,m)){
                 System.out.println("出问题的测试用例为：");
+                System.out.println("k:"+k+"  m:"+m);
                 for (int i1 : testArr) {
                     System.out.print(i1+" ");
                 }
                 System.out.println();
                 break;
             }
-            
         }
+        System.out.println("测试结束！");
 
 
     }
