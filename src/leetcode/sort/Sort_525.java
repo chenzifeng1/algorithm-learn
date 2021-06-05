@@ -30,7 +30,7 @@ public class Sort_525 {
     public static void main(String[] args) {
         int[] array = new int[]{0,1,0,1,1,1,1,0};
         int[] array1 = new int[]{0,0,1,0,0,0,1,1};
-        System.out.println(findMaxLength(array));
+        System.out.println(findMaxLength(array1));
     }
 
 
@@ -45,7 +45,7 @@ public class Sort_525 {
         for (int i = 0; i < nums.length; i++) {
             suffixCount+=nums[i]==0?-1:1;
             if(suffixCount==0){
-                max = Math.max((i - lastIndex), max);
+                max = Math.max((i - lastIndex+1), max);
             }
             if(Math.abs(suffixCount)>len-i){
                 //这里本次迭代就到这里 回溯到
