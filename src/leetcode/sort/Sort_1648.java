@@ -1,7 +1,7 @@
 package leetcode.sort;
 
-import sun.dc.pr.PRError;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Date;
@@ -35,6 +35,8 @@ import java.util.Date;
  * 输入：inventory = [2,8,4,10,6], orders = 20
  * 输出：110
  * <p>
+ *
+ *
  * 来源：力扣（LeetCode）
  * 链接：https://leetcode-cn.com/problems/sell-diminishing-valued-colored-balls
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
@@ -44,24 +46,34 @@ import java.util.Date;
  **/
 public class Sort_1648 {
 
+    // FIXME 这里无法处理大数
     public static void main(String[] args) {
         int[] array = new int[]{3, 5};
 
         int[] array1 = new int[]{1000000000};
         int[] array2 = new int[]  {497978859,167261111,483575207,591815159};
-       int time2= 836556809;
+
+        int time2= 836556809;
 
         int[] array3 = new int[]{3,5};
+        int[] array4 = new int[]{2,5};
+        int[] array5 =new int[]{81,86,43,41,37,51,93,23,15,22,26,89,37};
         int time3=6;
+        int time4=4;
+        int time5=256;
 
-
-        System.out.println(maxProfit(array3,time3));
+        System.out.println(maxProfit(array5,time5));
 
     }
 
 
     public static int maxProfit(int[] inventory, int orders) {
         long mod = 1000000007;
+        if(inventory.length==1){
+            long res =0;
+            res+=sum(inventory[0],inventory[0]-orders);
+            return (int)(res%mod);
+        }
         Arrays.sort(inventory);
         int len = inventory.length;
         //t从最大值开始减少
@@ -83,11 +95,17 @@ public class Sort_1648 {
             }
             t--;
         } while (t > 0);
-        System.out.println("T"+t);
+        System.out.println("t: " + t);
         int index = len-1;
         long sum = 0;
         while (orders>0){
-            if(orders<=m){
+            if(orders<m){
+                if (index>=0&&inventory[index] > t) {
+                    sum+=sum(inventory[index],inventory[index]-t);
+                    orders-=inventory[index]-t;
+                    inventory[index]-=inventory[index]-t;
+                }
+
                 int temp = len - 1;
                 for (int i = 0; i < orders; i++) {
                     sum+=inventory[temp-i];
@@ -95,7 +113,8 @@ public class Sort_1648 {
                 break;
             }
             int time = Math.min(inventory[index]-t,orders);
-            sum+=getSum(inventory[index], time);
+            sum+=sum(inventory[index], inventory[index]-time);
+            inventory[index]-=time;
             orders-=time;
             index--;
 
@@ -105,10 +124,26 @@ public class Sort_1648 {
     }
 
     private static int getSum(long baseNum, int time) {
-        int sum = 0;
+        BigInteger sum = new BigInteger("0");
         for (int i = 0; i < time; i++) {
-            sum += baseNum--;
+            sum=sum.add(new BigInteger(String.valueOf(baseNum--)));
         }
-        return sum;
+        return sum.intValue();
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * 等差数列求和，差值为1
+      * @param max
+     * @param min
+     * @return
+     */
+    public static long sum(int max, int min){
+        long n = max-min;
+        return n*min+n*(n+1)/2;
+    }
+
+
+
 }
