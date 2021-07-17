@@ -1,7 +1,6 @@
 package niuke;
 
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @ProjectName:
@@ -16,7 +15,7 @@ public class HJ1 {
 
     public static void main(String[] args) {
 
-        t1();
+        t3();
     }
 
     public void t0(){
@@ -57,4 +56,14 @@ public class HJ1 {
         }
     }
 
+    public static void t3(){
+        Scanner scanner = new Scanner(System.in);
+        String str = scanner.nextLine();
+        List<String> strs = Arrays.asList(str.split(" ")) ;
+        Collections.reverse(strs);
+        for(String s :strs){
+            System.out.print(s+" ");
+        }
+
+    }
 }
