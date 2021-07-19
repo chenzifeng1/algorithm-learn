@@ -34,4 +34,29 @@ public class PDDInterview {
 
     }
 
+
+    public static int dealByDP(String str) {
+
+        int max = 0;
+        int[] dp = new int[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            dp[i] = 0;
+        }
+
+        for (int i = 1; i < str.length(); i++) {
+            if (str.charAt(i) == ')') {
+                if (str.charAt(i - 1) == '(') {
+                    dp[i] = (i - 2) < 0 ? 2 : dp[i - 2] + 2;
+                } else {
+                    if (i - dp[i - 1] - 1 >= 0 && str.charAt(i - dp[i - 1] - 1) == '(') {
+                        dp[i] = dp[i - 1] + ((i - dp[i - 1] - 2) >= 0 ? dp[i - dp[i - 1] - 2] : 0) + 2;
+                    }
+                }
+            }
+            max = Math.max(max,dp[i]);
+
+        }
+        return max;
+    }
+
 }
