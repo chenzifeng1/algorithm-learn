@@ -14,9 +14,11 @@ public class Test {
 
 
     public static void main(String[] args) {
-        int n = 100;
+        int n = 10;
         int result = deal(1, 0, n) + deal(2, 0, n);
+        int result1 = deal1(n);
         System.out.println("result:" + result);
+        System.out.println("result1:" + result1);
     }
 
     /**
@@ -26,7 +28,6 @@ public class Test {
      * @return 方案数
      */
     public static int deal(int step, int index, int n) {
-        System.out.println(count++);
         if (step <= 0 || step > 2) {
             throw new IllegalArgumentException("错误输入");
         }
@@ -39,11 +40,19 @@ public class Test {
         return deal(1, index + step, n) + deal(2, index + step, n);
     }
 
-    public static int deal1(int index, int n) {
+    public static int deal1( int n) {
+
         int[] dp = new int[n + 1];
-        for (int i = n; i >= 0; i--) {
-            dp[i] = dp[i - 1] + dp[i - 2];
+        dp[n] = 1;
+        for (int i = n-1; i >= 0; i--) {
+            int temp = dp[i+1];
+            if(i+2<=n){
+                temp+=dp[i+2];
+            }
+            dp[i] = temp;
         }
-        return 0;
+        return dp[0];
     }
+
+
 }
