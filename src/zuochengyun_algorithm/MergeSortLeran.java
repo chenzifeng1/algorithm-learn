@@ -81,7 +81,23 @@ public class MergeSortLeran {
         }
         // 步长
         int step = 1;
-        
+        int len = array.length;
+
+        // 外层 大循环，当步长超过整个数组长度停止
+        while(step<=len){
+            int left = 0;
+            // 同一步长下的分组 循环
+            while(left<=len){
+
+                int mid = left+step-1;
+                if(mid>len){
+                    // 不够一组了 即左组都不够了，直接返回
+                    break;
+                }
+                int right = mid + step; 
+
+            }
+        }
 
 
     }
