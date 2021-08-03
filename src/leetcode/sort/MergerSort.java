@@ -11,7 +11,7 @@ public class MergerSort {
 
     public static void main(String[] args) {
         int[] test = new int[]{3,2,1,4,21,45,6,17,34,8,91};
-        sort(test);
+        sort1(test);
     }
 
 
@@ -64,5 +64,33 @@ public class MergerSort {
         }
     }
 
+
+    public static void sort1(final int[] array){
+        if(array==null||array.length==0){
+            return;
+        }
+        int length = array.length;
+        int step = 1;
+        while (step < length) {
+            int left = 0;
+            while(left<length){
+                int mid = left+step-1;
+                if(mid>length){
+                    break;
+                }
+                int right = Math.min(mid+1,length - 1);
+                merge(array,left,mid,right);
+                left= right+1;
+            }
+
+            // 步长扩充一背
+            step<<=1;
+
+        }
+
+        for (int i : array) {
+            System.out.print(i+" ");
+        }
+    }
 
 }
