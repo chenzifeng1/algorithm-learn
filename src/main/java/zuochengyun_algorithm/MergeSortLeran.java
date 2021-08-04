@@ -126,4 +126,25 @@ public class MergeSortLeran {
     }
     // ******************************************************************** 衍生题目（一） 小和问题 ***********************************************************************************************
 
+    /**
+     * 小和问题： 暴力破解版
+     * 小和：数组中下标为n的元素A，其左边所有比A小的元素的和称为A元素的小和
+     * 时间复杂度： 1+2+3+...+(n-1) = (1+n-1)*(n-1)/2 -> O(n^2)
+     * @param array
+     * @return
+     */
+    public int minSumByForce(int[] array){
+        int result = 0;
+        // 暴力破解 下标直接从1开始
+        for (int i = 1; i < array.length; i++) {
+            int temp = array[i];
+            for (int j = 0; j < i; j++) {
+                if(array[j]<temp){
+                    result+=array[j];
+                }
+            }
+        }
+        return result;
+    }
+
 }
