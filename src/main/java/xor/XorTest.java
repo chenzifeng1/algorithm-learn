@@ -1,5 +1,6 @@
 package xor;
 
+
 import utils.RandomList;
 
 /**

@@ -1,5 +1,7 @@
 package zuochengyun_algorithm;
 
+import utils.RandomList;
+
 /**
  * @Author: czf
  * @Description: 归并排序及其扩展问题
@@ -9,6 +11,21 @@ package zuochengyun_algorithm;
 public class MergeSortLeran {
 
 
+    public static void main(String[] args) {
+        System.out.println(" 排序之前");
+        int[] array = RandomList.generateRandomIntArray(100,200);
+        for (int num : array) {
+            System.out.print(num+" ");
+        }
+        sortByIteration(array);
+        System.out.println();
+        System.out.println(" 排序之后");
+
+        for (int num : array) {
+            System.out.print(num+" ");
+        }
+    }
+
     /**
      * 合并函数
      *
@@ -17,7 +34,7 @@ public class MergeSortLeran {
      * @param mid
      * @param right
      */
-    public void merge(int[] array, int left, int mid, int right) {
+    public static void merge(int[] array, int left, int mid, int right) {
         if (left >= right) {
             return;
         }
@@ -58,7 +75,7 @@ public class MergeSortLeran {
      * @param right
      * @return
      */
-    public void sortByRecursion(final int[] array,int left,int right){
+    public static void sortByRecursion(final int[] array,int left,int right){
         if(left>=right){
             return;
         }
@@ -75,13 +92,14 @@ public class MergeSortLeran {
      * 迭代版 核心思想，使用步长解决分组问题
      * @param array
      */
-    public void sortByIteration(int[] array){
+    public static void sortByIteration(int[] array){
         if(array==null||array.length==0){
             return;
         }
         // 步长
         int step = 1;
-        int len = array.length;
+        // 数组下标长度
+        int len = array.length-1;
 
         // 外层 大循环，当步长超过整个数组长度停止
         while(step<=len){
@@ -94,12 +112,18 @@ public class MergeSortLeran {
                     // 不够一组了 即左组都不够了，直接返回
                     break;
                 }
-                int right = mid + step; 
-
+                int right =Math.min(mid + step,len) ;
+                merge(array,left,mid,right);
+                // 开始下一组
+                left=right+1;
             }
+            // 这里设置判断是为了防止步长溢出 int的最大值
+            if(step>(len>>1)){
+                break;
+            }
+            step<<=1;
         }
-
-
     }
+    // ******************************************************************** 衍生题目（一） 小和问题 ***********************************************************************************************
 
 }
