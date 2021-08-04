@@ -78,4 +78,20 @@ public class RandomList {
 
         return array;
     }
+
+
+    /**
+     * 打印数组  方便查看测试用例
+     * @param array
+     */
+    public static void printArray(int[] array){
+        StringBuilder sb = new StringBuilder(array.length*2+1);
+        sb.append('[');
+        for (int i : array) {
+        sb.append(i).append(',');
+        }
+         sb.deleteCharAt(sb.length() - 1);
+        sb.append(']');
+        System.out.println(sb.toString());
+    }
 }
